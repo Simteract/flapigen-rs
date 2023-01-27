@@ -6,12 +6,7 @@
 
 template <typename T>
 class RustForeignSliceIterator final
-    : public std::iterator<std::random_access_iterator_tag, // iterator_category
-                           T, // value_type
-                           ptrdiff_t, // difference_type
-                           const T *, // pointer
-                           T // reference
-                           > {
+{
 public:
     using CForeignType = typename T::CForeignType;
 
