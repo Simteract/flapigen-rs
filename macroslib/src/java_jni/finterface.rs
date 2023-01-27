@@ -374,9 +374,9 @@ impl SwigFrom<jobject> for Box<dyn {trait_name}> {{
 lazy_static! {
     static ref JNI_FOR_VARIADIC_C_FUNC_CALL: FxHashMap<&'static str, &'static str> = {
         let mut m = FxHashMap::default();
-        m.insert("jboolean", "::std::os::raw::c_uint");
-        m.insert("jbyte", "::std::os::raw::c_int");
-        m.insert("jshort", "::std::os::raw::c_int");
+        m.insert("jboolean", "::std::ffi::c_uint");
+        m.insert("jbyte", "::std::ffi::c_int");
+        m.insert("jshort", "::std::ffi::c_int");
         m.insert("jfloat", "f64");
         m
     };
@@ -409,8 +409,8 @@ fn convert_args_for_variadic_function_call(
         }
     }
     let check_sizes = quote! {
-        swig_assert_eq_size!(::std::os::raw::c_uint, u32);
-        swig_assert_eq_size!(::std::os::raw::c_int, i32);
+        swig_assert_eq_size!(::std::ffi::c_uint, u32);
+        swig_assert_eq_size!(::std::ffi::c_int, i32);
     };
     (ret, check_sizes)
 }

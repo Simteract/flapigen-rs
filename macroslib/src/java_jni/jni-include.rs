@@ -92,7 +92,7 @@ trait SwigFrom<T> {
 #[allow(unused_macros)]
 macro_rules! swig_c_str {
     ($lit:expr) => {
-        concat!($lit, "\0").as_ptr() as *const ::std::os::raw::c_char
+        concat!($lit, "\0").as_ptr() as *const ::std::ffi::c_char
     };
 }
 
@@ -177,7 +177,7 @@ pub trait SwigForeignCLikeEnum {
 #[allow(dead_code)]
 pub struct JavaString {
     string: jstring,
-    chars: *const ::std::os::raw::c_char,
+    chars: *const ::std::ffi::c_char,
     env: *mut JNIEnv,
 }
 #[allow(dead_code)]
@@ -279,7 +279,7 @@ impl JavaCallback {
         let res = unsafe {
             (**self.java_vm).GetEnv.unwrap()(
                 self.java_vm,
-                (&mut env) as *mut *mut JNIEnv as *mut *mut ::std::os::raw::c_void,
+                (&mut env) as *mut *mut JNIEnv as *mut *mut ::std::ffi::c_void,
                 SWIG_JNI_VERSION,
             )
         };
@@ -301,9 +301,9 @@ impl JavaCallback {
             fn convert_ptr(self) -> T;
         }
 
-        impl ConvertPtr<*mut *mut ::std::os::raw::c_void> for *mut *mut JNIEnv {
-            fn convert_ptr(self) -> *mut *mut ::std::os::raw::c_void {
-                self as *mut *mut ::std::os::raw::c_void
+        impl ConvertPtr<*mut *mut ::std::ffi::c_void> for *mut *mut JNIEnv {
+            fn convert_ptr(self) -> *mut *mut ::std::ffi::c_void {
+                self as *mut *mut ::std::ffi::c_void
             }
         }
 

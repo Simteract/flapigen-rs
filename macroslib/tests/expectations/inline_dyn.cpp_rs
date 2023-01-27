@@ -12,7 +12,7 @@ pub extern "C" fn MapBitmapGenerator_already_rendered_bitmap(
     };
     let mut ret: CRustOption4232mut3232c_void = match ret {
         Some(mut x) => {
-            let data: *mut ::std::os::raw::c_void = <Box<Box<dyn Bitmap>>>::box_object(x);
+            let data: *mut ::std::ffi::c_void = <Box<Box<dyn Bitmap>>>::box_object(x);
             CRustOption4232mut3232c_void {
                 val: CRustOptionUnion4232mut3232c_void { data },
                 is_some: 1,

@@ -276,14 +276,14 @@ pub(in crate::java_jni) fn generate_load_unload_jni_funcs(
 
     let jni_load_func: syn::Item = parse_quote! {
         #[no_mangle]
-        pub extern "system" fn JNI_OnLoad(java_vm: *mut JavaVM, _reserved: *mut ::std::os::raw::c_void) -> jint {
+        pub extern "system" fn JNI_OnLoad(java_vm: *mut JavaVM, _reserved: *mut ::std::ffi::c_void) -> jint {
             println!("JNI_OnLoad begin");
             assert!(!java_vm.is_null());
             let mut env: *mut JNIEnv = ::std::ptr::null_mut();
             let res = unsafe {
                 (**java_vm).GetEnv.unwrap()(
                     java_vm,
-                    (&mut env) as *mut *mut JNIEnv as *mut *mut ::std::os::raw::c_void,
+                    (&mut env) as *mut *mut JNIEnv as *mut *mut ::std::ffi::c_void,
                     SWIG_JNI_VERSION,
                 )
             };
@@ -299,14 +299,14 @@ pub(in crate::java_jni) fn generate_load_unload_jni_funcs(
     addon_code.push(jni_load_func);
     let jni_unload_func: syn::Item = parse_quote! {
         #[no_mangle]
-        pub extern "system" fn JNI_OnUnload(java_vm: *mut JavaVM, _reserved: *mut ::std::os::raw::c_void) {
+        pub extern "system" fn JNI_OnUnload(java_vm: *mut JavaVM, _reserved: *mut ::std::ffi::c_void) {
             println!("JNI_OnUnLoad begin");
             assert!(!java_vm.is_null());
             let mut env: *mut JNIEnv = ::std::ptr::null_mut();
             let res = unsafe {
                 (**java_vm).GetEnv.unwrap()(
                     java_vm,
-                    (&mut env) as *mut *mut JNIEnv as *mut *mut ::std::os::raw::c_void,
+                    (&mut env) as *mut *mut JNIEnv as *mut *mut ::std::ffi::c_void,
                     SWIG_JNI_VERSION,
                 )
             };

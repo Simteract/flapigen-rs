@@ -140,9 +140,9 @@ fn rust_code_generate_interface(
 #[derive(Clone)]
 #[allow(non_snake_case)]
 pub struct {struct_with_funcs} {{
-    opaque: *const ::std::os::raw::c_void,
+    opaque: *const ::std::ffi::c_void,
     {struct_with_funcs}_deref:
-        extern "C" fn(_: *const ::std::os::raw::c_void),
+        extern "C" fn(_: *const ::std::ffi::c_void),
 "#,
         struct_with_funcs = struct_with_funcs,
     );
@@ -151,7 +151,7 @@ pub struct {struct_with_funcs} {{
         writeln!(
             &mut code,
             r#"
-{method_name}: extern "C" fn({args}_: *const ::std::os::raw::c_void) -> {ret_type},"#,
+{method_name}: extern "C" fn({args}_: *const ::std::ffi::c_void) -> {ret_type},"#,
             method_name = method.name,
             args = args,
             ret_type = DisplayToTokens(&f_method.output.base.correspoding_rust_type.ty),

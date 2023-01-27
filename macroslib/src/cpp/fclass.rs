@@ -143,14 +143,14 @@ fn do_generate(
             let this_type_for_method_ty = this_type_for_method.to_type_without_lifetimes();
             let fclass_impl_code: TokenStream = quote! {
                 impl<#(#lifetimes),*> SwigForeignClass for #class_name {
-                    fn c_class_name() -> *const ::std::os::raw::c_char {
+                    fn c_class_name() -> *const ::std::ffi::c_char {
                         swig_c_str!(stringify!(#class_name))
                     }
-                    fn box_object(this: Self) -> *mut ::std::os::raw::c_void {
+                    fn box_object(this: Self) -> *mut ::std::ffi::c_void {
                         #code_box_this
-                        this as *mut ::std::os::raw::c_void
+                        this as *mut ::std::ffi::c_void
                     }
-                    fn unbox_object(p: *mut ::std::os::raw::c_void) -> Self {
+                    fn unbox_object(p: *mut ::std::ffi::c_void) -> Self {
                         let p = p as *mut #this_type_for_method_ty;
                         #unpack_code
                         p
@@ -952,12 +952,12 @@ fn generate_constructor(
         r#"
 #[allow(unused_variables, unused_mut, non_snake_case, unused_unsafe)]
 #[no_mangle]
-pub extern "C" fn {func_name}({decl_func_args}) -> *const ::std::os::raw::c_void {{
+pub extern "C" fn {func_name}({decl_func_args}) -> *const ::std::ffi::c_void {{
 {convert_input_code}
     let this: {real_output_typename} = {call};
 {convert_this}
 {box_this}
-    this as *const ::std::os::raw::c_void
+    this as *const ::std::ffi::c_void
 }}
 "#,
         func_name = mc.c_func_name,
@@ -1343,7 +1343,7 @@ fn genearte_copy_stuff(
         ctx.rust_code.push(quote! {
             #[allow(non_snake_case, unused_variables, unused_mut, unused_unsafe)]
             #[no_mangle]
-            pub extern "C" fn #clone_fn_name(this: *const #this_type_for_method_ty) -> *mut ::std::os::raw::c_void {
+            pub extern "C" fn #clone_fn_name(this: *const #this_type_for_method_ty) -> *mut ::std::ffi::c_void {
                 #unpack_code
                 let ret: #this_type_ty = this.clone();
                 ::std::mem::forget(this);

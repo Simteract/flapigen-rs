@@ -6,24 +6,24 @@ r#"pub extern "C" fn TestPassInterface_use_interface ( a : * mut :: std :: os ::
  ret }"#;
 
 r#"impl SwigForeignClass for Box<Box<dyn Interface>> {
-    fn c_class_name() -> *const ::std::os::raw::c_char {
+    fn c_class_name() -> *const ::std::ffi::c_char {
         swig_c_str!(stringify!(Box<Box<dyn Interface>>))
     }
-    fn box_object(this: Self) -> *mut ::std::os::raw::c_void {
+    fn box_object(this: Self) -> *mut ::std::ffi::c_void {
         let this: *const Box<dyn Interface> = Box::into_raw(this);
-        this as *mut ::std::os::raw::c_void
+        this as *mut ::std::ffi::c_void
     }
-    fn unbox_object(p: *mut ::std::os::raw::c_void) -> Self {
+    fn unbox_object(p: *mut ::std::ffi::c_void) -> Self {
         let p = p as *mut Box<dyn Interface>;
         let p: Box<Box<dyn Interface>> = unsafe { Box::from_raw(p) };
         p
     }
 }"#;
 
-r#"pub extern "C" fn Interface_create_interface() -> *const ::std::os::raw::c_void {
+r#"pub extern "C" fn Interface_create_interface() -> *const ::std::ffi::c_void {
     let this: Box<Box<dyn Interface>> = create_interface();
     let this: *const Box<dyn Interface> = Box::into_raw(this);
-    this as *const ::std::os::raw::c_void
+    this as *const ::std::ffi::c_void
 }"#;
 
 r#"pub extern "C" fn Interface_f(this: *mut Box<dyn Interface>, a0: i32) -> i32 {

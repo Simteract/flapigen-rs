@@ -39,7 +39,7 @@ fn test_foreign_typemap_simple_generic() {
             true
         });
     assert!(subst_map.is_some());
-    let ty = parse_type! { * const ::std::os::raw::c_char };
+    let ty = parse_type! { * const ::std::ffi::c_char };
     let subst_map =
         rule.is_ty_subst_of_my_generic_rtype(&ty, petgraph::Direction::Outgoing, |_ty, _traits| {
             true
@@ -51,11 +51,11 @@ fn test_foreign_typemap_simple_generic() {
 fn test_foreign_typemap_cpp_bool() {
     let rule = macro_to_conv_rule(parse_quote! {
         foreign_typemap!(
-            ($pin:r_type) bool => ::std::os::raw::c_char {
+            ($pin:r_type) bool => ::std::ffi::c_char {
                 $out = if $pin  { 1 } else { 0 };
             };
             ($pin:f_type) => "bool" "$out = ($pin != 0);";
-            ($pin:r_type) bool <= ::std::os::raw::c_char {
+            ($pin:r_type) bool <= ::std::ffi::c_char {
                 $out = ($pin != 0);
             };
             ($pin:f_type) <= "bool" "$out = $pin ? 1 : 0;";
@@ -69,7 +69,7 @@ fn test_foreign_typemap_cpp_bool() {
     assert_eq!(
         RTypeConvRule {
             left_ty: parse_type!(bool),
-            right_ty: Some(parse_type!(::std::os::raw::c_char)),
+            right_ty: Some(parse_type!(::std::ffi::c_char)),
             code: Some(TypeConvCode::new(
                 "let mut {to_var}: {to_var_type} = if {from_var} { 1 } else { 0 } ;",
                 invalid_src_id_span(),
@@ -81,7 +81,7 @@ fn test_foreign_typemap_cpp_bool() {
     assert_eq!(
         RTypeConvRule {
             left_ty: parse_type!(bool),
-            right_ty: Some(parse_type!(::std::os::raw::c_char)),
+            right_ty: Some(parse_type!(::std::ffi::c_char)),
             code: Some(TypeConvCode::new(
                 quote! { let mut out = (inp != 0); }
                     .to_string()
@@ -319,7 +319,7 @@ fn test_foreign_typemap_cpp_ruststring() {
             define_c_type!(module = "rust_str.h";
                 #[repr(C)]
                 struct CRustString {
-                    data: *const ::std::os::raw::c_char,
+                    data: *const ::std::ffi::c_char,
                     len: usize,
                     capacity: usize,
                 }
@@ -349,7 +349,7 @@ fn test_foreign_typemap_cpp_ruststring() {
             items: vec![CItem::Struct(parse_quote! {
                 #[repr(C)]
                     struct CRustString {
-                        data: *const ::std::os::raw::c_char,
+                        data: *const ::std::ffi::c_char,
                         len: usize,
                         capacity: usize,
                     }
@@ -366,7 +366,7 @@ fn test_foreign_typemap_cpp_str() {
         define_c_type!(module = "rust_str.h";
                        #[repr(C)]
                        pub struct CRustStrView {
-                           data: *const ::std::os::raw::c_char,
+                           data: *const ::std::ffi::c_char,
                            len: usize,
                        }
         );

@@ -562,12 +562,12 @@ fn test_is_second_subst_of_first_char_pointer() {
     for ty_p in generics.type_params() {
         subst_map.insert(&ty_p.ident, None);
     }
-    let ty = parse_type! { *const ::std::os::raw::c_char };
+    let ty = parse_type! { *const ::std::ffi::c_char };
     let generic_ty = parse_type! { *const T };
     assert!(is_second_subst_of_first(&generic_ty, &ty, &mut subst_map));
     assert_eq!(1, subst_map.len());
     assert_eq!(
-        parse_type! { ::std::os::raw::c_char },
+        parse_type! { ::std::ffi::c_char },
         *subst_map.get("T").unwrap().unwrap()
     );
 }

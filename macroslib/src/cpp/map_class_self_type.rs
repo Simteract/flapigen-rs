@@ -23,14 +23,14 @@ pub(in crate::cpp) fn register_typemap_for_self_type(
 ) -> Result<()> {
     let span = this_type.ty.span();
 
-    let void_ptr_ty = parse_type_spanned_checked!(span, *mut ::std::os::raw::c_void);
+    let void_ptr_ty = parse_type_spanned_checked!(span, *mut ::std::ffi::c_void);
     let void_ptr_rust_ty = conv_map.find_or_alloc_rust_type_with_suffix(
         &void_ptr_ty,
         &this_type.normalized_name,
         class.src_id,
     );
 
-    let const_void_ptr_ty = parse_type_spanned_checked!(span, *const ::std::os::raw::c_void);
+    let const_void_ptr_ty = parse_type_spanned_checked!(span, *const ::std::ffi::c_void);
     let const_void_ptr_rust_ty = conv_map.find_or_alloc_rust_type_with_suffix(
         &const_void_ptr_ty,
         &this_type.normalized_name,

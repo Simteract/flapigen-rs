@@ -925,7 +925,7 @@ mod swig_foreign_types_map {}
     fn test_get_foreigner_hint_for_generic() {
         let trait_impl: syn::ItemImpl = parse_quote! {
             #[swig_to_foreigner_hint = "T"]
-            impl<T: SwigForeignClass> SwigFrom<T> for *mut ::std::os::raw::c_void {
+            impl<T: SwigForeignClass> SwigFrom<T> for *mut ::std::ffi::c_void {
                 fn swig_from(x: T) -> Self {
                     unimplemented!();
                 }

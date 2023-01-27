@@ -19,4 +19,4 @@ r#"# [ no_mangle ]
  ret }"#;
 
 r#"onStateChanged1:
-        extern "C" fn(a0: i32, a1: ::std::os::raw::c_char, _: *const ::std::os::raw::c_void) -> (),"#;
+        extern "C" fn(a0: i32, a1: ::std::ffi::c_char, _: *const ::std::ffi::c_void) -> (),"#;

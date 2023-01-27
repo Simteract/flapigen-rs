@@ -189,7 +189,7 @@ pub trait SwigForeignEnum: Sized {
 }
 
 foreign_typemap!(
-    ($p:r_type) /* Option */ *mut ::std::os::raw::c_void;
+    ($p:r_type) /* Option */ *mut ::std::ffi::c_void;
     ($p:f_type) "/* Option */ IntPtr";
 );
 
@@ -333,15 +333,15 @@ foreign_typemap!(
     }
     "#);
 
-    ($p:r_type) <T> Option<T> => /* Option */ *mut ::std::os::raw::c_void {
+    ($p:r_type) <T> Option<T> => /* Option */ *mut ::std::ffi::c_void {
         let $p: Option<swig_i_type!(T)> = $p.map(|value_0| {
             swig_from_rust_to_i_type!(T, value_0, value_1)
             value_1
         });
-        $out = Box::into_raw(Box::new($p)) as *mut ::std::os::raw::c_void;
+        $out = Box::into_raw(Box::new($p)) as *mut ::std::ffi::c_void;
     };
     ($p:f_type) => "Option<swig_f_type!(T)>" "RustOptionT!().rust_to_dotnet($p)";
-    ($p:r_type) <T> Option<T> <= /* Option */ *mut ::std::os::raw::c_void {
+    ($p:r_type) <T> Option<T> <= /* Option */ *mut ::std::ffi::c_void {
         let $p: Box<Option<swig_i_type!(T)>> = unsafe { Box::from_raw($p as *mut Option<swig_i_type!(T)>) };
         $out = $p.map(|value_0| {
             swig_from_i_type_to_rust!(T, value_0, value_1)
@@ -353,12 +353,12 @@ foreign_typemap!(
 );
 
 foreign_typemap!(
-    ($p:r_type) /* Vec */ *mut ::std::os::raw::c_void;
+    ($p:r_type) /* Vec */ *mut ::std::ffi::c_void;
     ($p:f_type) "/* RustVec */ IntPtr";
 );
 
 foreign_typemap!(
-    ($p:r_type) /* Iter */ *mut ::std::os::raw::c_void;
+    ($p:r_type) /* Iter */ *mut ::std::ffi::c_void;
     ($p:f_type) "/* Iter */ IntPtr";
 );
 
@@ -371,16 +371,16 @@ foreign_typemap!(
     generic_alias!(RustVecT_option_is_some = swig_concat_idents!(RustVec, swig_f_type!(T), _option_is_some));
     generic_alias!(RustVecT_option_take = swig_concat_idents!(RustVec, swig_f_type!(T), _option_take));
 
-    ($p:r_type) <T> Vec<T> => /* Iter */ *mut ::std::os::raw::c_void {
+    ($p:r_type) <T> Vec<T> => /* Iter */ *mut ::std::ffi::c_void {
         let $p: Vec<swig_i_type!(T)> = $p.into_iter().map(|e_0| {
             swig_from_rust_to_i_type!(T, e_0, e_1)
             e_1
         }).collect();
         let $p: std::vec::IntoIter<swig_i_type!(T)> = $p.into_iter();
-        $out = Box::into_raw(Box::new($p)) as *mut ::std::os::raw::c_void;
+        $out = Box::into_raw(Box::new($p)) as *mut ::std::ffi::c_void;
     };
     ($p:f_type) => "System.Collections.Generic.List<swig_f_type!(T)>" "RustVecT!().rust_to_dotnet($p)";
-    ($p:r_type) <T> Vec<T> <= /* Vec */ *mut ::std::os::raw::c_void {
+    ($p:r_type) <T> Vec<T> <= /* Vec */ *mut ::std::ffi::c_void {
         let $p = unsafe { *Box::from_raw($p as *mut Vec<swig_i_type!(T)>) };
         $out = $p.into_iter().map(|e_0| {
             swig_from_i_type_to_rust!(T, e_0, e_1)
@@ -489,12 +489,12 @@ foreign_typemap!(
 
 // Slices
 foreign_typemap!(
-    ($p:r_type) /* SliceVec */ *mut ::std::os::raw::c_void;
+    ($p:r_type) /* SliceVec */ *mut ::std::ffi::c_void;
     ($p:f_type) "/* RustSlice */ IntPtr";
 );
 
 foreign_typemap!(
-    ($p:r_type) /* SliceIter */ *mut ::std::os::raw::c_void;
+    ($p:r_type) /* SliceIter */ *mut ::std::ffi::c_void;
     ($p:f_type) "/* SliceIter */ IntPtr";
 );
 
@@ -507,16 +507,16 @@ foreign_typemap!(
     generic_alias!(RustVecT_option_is_some = swig_concat_idents!(RustVec, swig_f_type!(T), _option_is_some));
     generic_alias!(RustVecT_option_take = swig_concat_idents!(RustVec, swig_f_type!(T), _option_take));
 
-    ($p:r_type) <T> &[T] => /* SliceIter */ *mut ::std::os::raw::c_void {
+    ($p:r_type) <T> &[T] => /* SliceIter */ *mut ::std::ffi::c_void {
         let $p: Vec<swig_i_type!(T)> = $p.to_owned().into_iter().map(|e_0| {
             swig_from_rust_to_i_type!(T, e_0, e_1)
             e_1
         }).collect();
         let $p: std::vec::IntoIter<swig_i_type!(T)> = $p.into_iter();
-        $out = Box::into_raw(Box::new($p)) as *mut ::std::os::raw::c_void;
+        $out = Box::into_raw(Box::new($p)) as *mut ::std::ffi::c_void;
     };
     ($p:f_type) => "/* Slice */ System.Collections.Generic.List<swig_f_type!(T)>" "RustVecT!().rust_to_dotnet($p)";
-    ($p:r_type) <T> &[T] <= /* SliceVec */ *mut ::std::os::raw::c_void {
+    ($p:r_type) <T> &[T] <= /* SliceVec */ *mut ::std::ffi::c_void {
         let $p = unsafe { *Box::from_raw($p as *mut Vec<swig_i_type!(T)>) };
         let $p = $p.into_iter().map(|e_0| {
             swig_from_i_type_to_rust!(T, e_0, e_1)
@@ -625,7 +625,7 @@ foreign_typemap!(
 
 
 foreign_typemap!(
-    ($p:r_type) /* ResultVoid */ *mut ::std::os::raw::c_void;
+    ($p:r_type) /* ResultVoid */ *mut ::std::ffi::c_void;
     ($p:f_type) "/* ResultVoid */ IntPtr";
 );
 
@@ -674,18 +674,18 @@ foreign_typemap!(
         }
     }
     "#);
-    ($p:r_type) <T> Result<(), T> => /* ResultVoid */ *mut ::std::os::raw::c_void {
+    ($p:r_type) <T> Result<(), T> => /* ResultVoid */ *mut ::std::ffi::c_void {
         let $p: Result<(), String> = $p.map_err(|err| {
             swig_collect_error_message(&err)
         });
-        $out = Box::into_raw(Box::new($p)) as *mut ::std::os::raw::c_void;
+        $out = Box::into_raw(Box::new($p)) as *mut ::std::ffi::c_void;
     };
     ($p:f_type) => "/* ResultVoid<swig_subst_type!(T)> */ void" "RustResultVoid.unwrap($p)";
 );
 
 
 foreign_typemap!(
-    ($p:r_type) /* Result */ *mut ::std::os::raw::c_void;
+    ($p:r_type) /* Result */ *mut ::std::ffi::c_void;
     ($p:f_type) "/* Result */ IntPtr";
 );
 
@@ -750,14 +750,14 @@ foreign_typemap!(
         }
     }
     "#);
-    ($p:r_type) <T1, T2> Result<T1, T2> => /* Result */ *mut ::std::os::raw::c_void {
+    ($p:r_type) <T1, T2> Result<T1, T2> => /* Result */ *mut ::std::ffi::c_void {
         let $p: Result<swig_i_type!(T1), String> = $p.map(|ok_0| {
             swig_from_rust_to_i_type!(T1, ok_0, ok_1)
             ok_1
         }).map_err(|err| {
             swig_collect_error_message(&err)
         });
-        $out = Box::into_raw(Box::new($p)) as *mut ::std::os::raw::c_void;
+        $out = Box::into_raw(Box::new($p)) as *mut ::std::ffi::c_void;
     };
     ($p:f_type) => "/* Result<swig_subst_type!(T1), swig_subst_type!(T2)> */ swig_f_type!(T1)" "RustResultT!().unwrap($p)";
 );
@@ -771,7 +771,7 @@ fn swig_collect_error_message(error: &dyn std::error::Error) -> String {
 }
 
 foreign_typemap!(
-    (r_type) /* Tuple */ *mut ::std::os::raw::c_void;
+    (r_type) /* Tuple */ *mut ::std::ffi::c_void;
     (f_type) "/* Tuple */ IntPtr";
 );
 
@@ -850,14 +850,14 @@ foreign_typemap!(
     }
     "#);
 
-    ($p:r_type) <T1, T2> (T1, T2) => /* Tuple */ *mut ::std::os::raw::c_void {
+    ($p:r_type) <T1, T2> (T1, T2) => /* Tuple */ *mut ::std::ffi::c_void {
         let (t_1, t_2) = $p;
         swig_from_rust_to_i_type!(T1, t_1, t_1_i)
         swig_from_rust_to_i_type!(T2, t_2, t_2_i)
-        $out = Box::into_raw(Box::new((t_1_i, t_2_i))) as *mut ::std::os::raw::c_void;
+        $out = Box::into_raw(Box::new((t_1_i, t_2_i))) as *mut ::std::ffi::c_void;
     };
     ($p:f_type) => "Tuple<swig_f_type!(T1), swig_f_type!(T2)>" "RustTuple2T!().rust_to_dotnet($p)";
-    ($p:r_type) <T1, T2> (T1, T2) <= /* Tuple */ *mut ::std::os::raw::c_void {
+    ($p:r_type) <T1, T2> (T1, T2) <= /* Tuple */ *mut ::std::ffi::c_void {
         assert!(!$p.is_null());
         let tuple_i_ptr = $p as *mut (swig_subst_type!(T1), swig_subst_type!(T2));
         let tuple_i = unsafe { Box::from_raw(tuple_i_ptr) };

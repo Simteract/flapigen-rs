@@ -4,8 +4,8 @@ foreign_typemap!(
         module = "CFnOnce!().h";
         #[repr(C)]
         struct CFnOnce!() {
-            cb: extern "C" fn(swig_i_type!(T, output), *mut ::std::os::raw::c_void),
-            ctx: *mut ::std::os::raw::c_void,
+            cb: extern "C" fn(swig_i_type!(T, output), *mut ::std::ffi::c_void),
+            ctx: *mut ::std::ffi::c_void,
         });
 
     ($p:r_type) <T> impl FnOnce(T) <= CFnOnce!()
